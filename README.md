@@ -8,14 +8,14 @@ El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, 
 ## 🚀 Tecnologías utilizadas
 
 - Drupal 10
-- PHP 8.2
-- MariaDB
+- PHP 8.3
+- MariaDB 10.11
 - Nginx
 - Docker & Docker Compose
 - Composer
 - SCSS
 - JavaScript
-- Mailhog
+- Mailpit
 
 ---
 
