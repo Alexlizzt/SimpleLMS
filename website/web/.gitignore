@@ -1,0 +1,15 @@
+# Ignorar archivos subidos (imágenes, PDFs, etc.)
+/sites/*/files/
+/sites/*/private/
+
+# Ignorar configuraciones específicas del sitio
+/sites/*/settings.php
+/sites/*/settings.local.php
+/sites/*/services.yml
+
+# Archivos generados por Drupal
+/core/
+/modules/contrib/
+/themes/contrib/
+/profiles/contrib/
+/libraries/
