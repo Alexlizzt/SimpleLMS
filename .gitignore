@@ -1,0 +1,11 @@
+# Dependencias de PHP
+/vendor/
+
+# Archivos de entorno y Docker locales
+#.env
+docker-compose.override.yml
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
