@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.4-fpm
 
 # Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libwebp-dev \
+    libavif-dev \
     libzip-dev \
     libicu-dev \
     libonig-dev \
@@ -16,8 +18,12 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Extensiones necesarias para Drupal 10
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+# Extensiones necesarias para Drupal 11
+RUN docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+        --with-avif \
     && docker-php-ext-install \
         gd \
         pdo \
