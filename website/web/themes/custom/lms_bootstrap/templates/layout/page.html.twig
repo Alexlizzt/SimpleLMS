@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token }}">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+    <css-placeholder token="{{ placeholder_token }}">
+    <js-placeholder token="{{ placeholder_token }}">
+  </head>
+  <body{{ attributes.addClass('d-flex','flex-column','min-vh-100') }}>
+
+    <header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{{ path('<front>') }}">
+        <img src="{{ directory }}/logo.svg" alt="Logo" height="40">
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if page.primary_menu %}
+          {{ page.primary_menu }}
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section class="bg-primary text-white py-5 text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Bienvenido a Simple LMS</h1>
+    <p class="lead">Aprende a tu ritmo con nuestros cursos online</p>
+    <a href="/cursos" class="btn btn-light btn-lg mt-3">Explorar Cursos</a>
+  </div>
+</section>
+
+    <main class="flex-fill py-4">
+      <div class="container">
+        {{ page.content }}
+      </div>
+    </main>
+
+    <footer class="bg-light py-4 mt-auto">
+      <div class="container text-center">
+        <small>© {{ "now"|date("Y") }} Simple LMS</small>
+      </div>
+      <div class="row">
+        <div class="col-md-4">Contacto</div>
+        <div class="col-md-4">Enlaces</div>
+        <div class="col-md-4">Redes Sociales</div>
+      </div>
+    </footer>
+
+    <js-bottom-placeholder token="{{ placeholder_token }}">
+  </body>
+</html>

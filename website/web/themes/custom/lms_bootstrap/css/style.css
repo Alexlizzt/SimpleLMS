@@ -1,0 +1,23 @@
+/**
+ * @file
+ * Subtheme specific CSS.
+ */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.hero {
+  background: linear-gradient(90deg, #4a90e2, #50e3c2);
+  color: white;
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+footer a {
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}
