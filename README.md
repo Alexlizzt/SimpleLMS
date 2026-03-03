@@ -1,14 +1,14 @@
-# 🎓 Simple LMS - Drupal 10 Full Stack Project
+# 🎓 Simple LMS - Drupal 11 Full Stack Project
 
-Mini plataforma de cursos online desarrollada con Drupal 10.
+Mini plataforma de cursos online desarrollada con Drupal 11.
 El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, Docker y buenas prácticas.
 
 ---
 
 ## 🚀 Tecnologías utilizadas
 
-- Drupal 10
-- PHP 8.3
+- Drupal 11
+- PHP 8.4
 - MariaDB 10.11
 - Nginx
 - Docker & Docker Compose

@@ -136,6 +136,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/bootstrap5' => array(
+            'pretty_version' => '4.0.8',
+            'version' => '4.0.8.0',
+            'reference' => '4.0.8',
+            'type' => 'drupal-theme',
+            'install_path' => __DIR__ . '/../../web/themes/contrib/bootstrap5',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/core' => array(
             'pretty_version' => '11.3.3',
             'version' => '11.3.3.0',
