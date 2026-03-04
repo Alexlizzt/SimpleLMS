@@ -8,27 +8,27 @@
   </head>
   <body{{ attributes.addClass('d-flex','flex-column','min-vh-100') }}>
 
-    <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="{{ path('<front>') }}">
-        <img src="{{ directory }}/logo.svg" alt="Logo" height="40">
-      </a>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{{ path('<front>') }}">
+          <img src="../{{ directory }}/logo.svg" alt="Logo" height="40">
+        </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        {% if page.primary_menu %}
-          {{ page.primary_menu }}
-        {% endif %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          {% if page.primary_menu %}
+            {{ page.primary_menu }}
+          {% endif %}
+        </div>
       </div>
-    </div>
-  </nav>
-</header>
+    </nav>
+  </header>
 
-<section class="bg-primary text-white py-5 text-center">
+<section class="hero bg-primary text-white py-5 text-center">
   <div class="container">
     <h1 class="display-4 fw-bold">Bienvenido a Simple LMS</h1>
     <p class="lead">Aprende a tu ritmo con nuestros cursos online</p>
@@ -44,12 +44,12 @@
 
     <footer class="bg-light py-4 mt-auto">
       <div class="container text-center">
-        <small>© {{ "now"|date("Y") }} Simple LMS</small>
-      </div>
-      <div class="row">
-        <div class="col-md-4">Contacto</div>
-        <div class="col-md-4">Enlaces</div>
-        <div class="col-md-4">Redes Sociales</div>
+        <div class="row">
+          <div class="col-md-4">Contacto: contacto@simplelms.com</div>
+          <div class="col-md-4">Enlaces: <a href="#">FAQ</a> | <a href="#">Soporte</a></div>
+          <div class="col-md-4">Redes Sociales: <a href="#">Twitter</a> | <a href="#">Facebook</a></div>
+        </div>
+        <small class="d-block mt-3">© {{ "now"|date("Y") }} Simple LMS</small>
       </div>
     </footer>
 

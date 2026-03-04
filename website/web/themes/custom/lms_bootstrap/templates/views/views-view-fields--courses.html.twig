@@ -1,0 +1,21 @@
+<div class="card h-100 shadow-sm">
+
+  <div class="card-img-top">
+    {{ fields.field_image.content }}
+  </div>
+
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title">
+      {{ fields.title.content }}
+    </h5>
+
+    <div class="card-text mb-3">
+      {{ fields.field_description.content }}
+    </div>
+
+    <a href="{{ fields.title.url }}" class="btn btn-primary mt-auto">
+      Ver curso
+    </a>
+  </div>
+
+</div>

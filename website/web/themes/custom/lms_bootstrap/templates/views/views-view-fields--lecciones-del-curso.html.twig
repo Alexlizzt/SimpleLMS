@@ -1,0 +1,11 @@
+{% set node_id = row.nid|default(fields.nid.content|striptags|trim) %}
+
+<a href="{{ path('entity.node.canonical', {'node': node_id}) }}"
+   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+  <span>
+    <strong class="me-2">
+      {{ fields.field_orden.content }}.
+    </strong>
+    {{ fields.title.content }}
+  </span>
+</a>
