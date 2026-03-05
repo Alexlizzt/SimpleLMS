@@ -1,14 +1,23 @@
-<article{{ attributes }}>
-
+<article class="lesson-content" {{ attributes }}>
   <h1>{{ label }}</h1>
 
-  {{ content }}
-
-{% if logged_in %}
-  <a href="/lms/complete-lesson/{{ node.id }}"
-     class="btn btn-success mt-4">
-     Marcar como completada
-  </a>
-{% endif %}
-
+  <div class="lesson-body">
+    {{ content }}
+  </div>
 </article>
+
+{% if lesson_completed %}
+
+<div class="alert alert-success mt-4">
+✔ Lección completada
+</div>
+
+{% else %}
+
+<a href="{{ path('lms_progress.complete', {'nid': node.id}) }}"
+   class="btn btn-success mt-3">
+
+   Marcar como completada
+</a>
+
+{% endif %}
