@@ -1,0 +1,14 @@
+<article{{ attributes }}>
+
+  <h1>{{ label }}</h1>
+
+  {{ content }}
+
+{% if logged_in %}
+  <a href="/lms/complete-lesson/{{ node.id }}"
+     class="btn btn-success mt-4">
+     Marcar como completada
+  </a>
+{% endif %}
+
+</article>
