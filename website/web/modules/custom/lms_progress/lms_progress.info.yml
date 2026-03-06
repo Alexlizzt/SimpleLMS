@@ -1,8 +1,5 @@
 name: LMS Progress
 type: module
-description: Manejo de progreso de lecciones por usuario
+description: Maneja el progreso de usuarios en lecciones
 core_version_requirement: ^11
-package: LMS
-dependencies:
-  - node
-  - user
+package: Custom

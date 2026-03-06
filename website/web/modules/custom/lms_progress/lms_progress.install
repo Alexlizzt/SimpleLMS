@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function lms_progress_schema() {
+
+  $schema['lms_lesson_progress'] = [
+    'description' => 'Stores lesson progress per user.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'user_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'lesson_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'completed' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'default' => 1,
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}

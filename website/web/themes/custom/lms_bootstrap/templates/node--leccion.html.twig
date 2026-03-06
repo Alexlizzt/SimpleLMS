@@ -8,16 +8,15 @@
 
 {% if lesson_completed %}
 
-<div class="alert alert-success mt-4">
-✔ Lección completada
-</div>
+  <button class="btn btn-success mt-3" disabled>
+    ✔ Lección completada
+  </button>
 
 {% else %}
 
-<a href="{{ path('lms_progress.complete', {'nid': node.id}) }}"
-   class="btn btn-success mt-3">
-
-   Marcar como completada
-</a>
+  <a href="/lesson/{{ node.id }}/complete"
+     class="btn btn-primary mt-3">
+     Marcar como completada
+  </a>
 
 {% endif %}

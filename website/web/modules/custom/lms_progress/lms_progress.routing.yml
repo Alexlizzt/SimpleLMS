@@ -1,7 +1,7 @@
-lms_progress.complete_lesson:
-  path: '/lms/complete-lesson/{lesson}'
+lms_progress.complete:
+  path: '/lesson/{lesson}/complete'
   defaults:
-    _controller: '\Drupal\lms_progress\Controller\ProgressController::completeLesson'
-    _title: 'Completar lección'
+    _controller: '\Drupal\lms_progress\Controller\ProgressController::complete'
+    _title: 'Complete lesson'
   requirements:
     _permission: 'access content'
