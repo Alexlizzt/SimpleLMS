@@ -1,6 +1,9 @@
 <?php
 
 use Drupal\node\NodeInterface;
+use Drupal\Core\Access\AccessResult;
+
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_preprocess_node().
@@ -34,4 +37,49 @@ function lms_progress_preprocess_node(&$variables) {
     // También invalidamos caché aquí para que la barra suba al completar lecciones
     $variables['#cache']['max-age'] = 0;
   }
+}
+
+
+/**
+ * Implements hook_node_access().
+ */
+function lms_progress_node_access(NodeInterface $node, $op, AccountInterface $account) {
+
+  if ($op !== 'view') {
+    return AccessResult::neutral();
+  }
+
+  if ($node->bundle() !== 'leccion') {
+    return AccessResult::neutral();
+  }
+
+  return AccessResult::allowed();
+
+}
+
+
+/**
+ * Implements hook_node_view().
+ */
+function lms_progress_node_view(array &$build, NodeInterface $node, $display, $view_mode) {
+
+  if ($node->bundle() !== 'leccion') {
+    return;
+  }
+
+  $user = Drupal::currentUser();
+  $course_id = $node->get('field_curso_padre')->target_id;
+
+  $progress_service = Drupal::service('lms_progress.progress_service');
+
+  if (!$progress_service->isUserEnrolled($user->id(), $course_id)) {
+
+    $course = \Drupal\node\Entity\Node::load($course_id);
+
+    $response = new RedirectResponse($course->toUrl()->toString());
+    $response->send();
+    exit;
+
+  }
+
 }

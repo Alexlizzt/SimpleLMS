@@ -10,35 +10,31 @@
       {% endif %}
 
       <div class="mb-4 lead">
-        {# Aquí solo imprimimos la descripción pura #}
         {{ content.field_descripcion }}
       </div>
 
       <hr class="my-5">
+      {% if not is_enrolled %}
+        <div class="alert alert-info">
+          <h4 class="alert-heading">¡Inscríbete para acceder al contenido del curso!</h4>
+          <p>Al inscribirte, podrás seguir tu progreso, acceder a las lecciones y completar el curso a tu ritmo.</p>
+          <hr>
+          <a href="/course/{{ node.id }}/enroll" class="btn btn-primary">
+            Inscribirse ahora
+          </a>
+        </div>
+      {% endif %}
 
-      <h3 class="mb-4 fw-bold">Plan de estudios</h3>
-      <div class="lecciones-wrapper p-3 bg-light rounded">
-        {{ drupal_view('lecciones_del_curso', 'block_1', node.nid.value) }}
-      </div>
+      {% if is_enrolled %}
+        <h3 class="mb-4 fw-bold">Plan de estudios</h3>
+        <div class="lecciones-wrapper p-3 bg-light rounded">
+          {{ drupal_view('lecciones_del_curso', 'block_1', node.nid.value) }}
+        </div>
+      {% endif %}
     </div>
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
-
-{% if is_enrolled %}
-
-  <button class="btn btn-success w-100" disabled>
-    ✔ Ya estás inscrito
-  </button>
-
-{% else %}
-
-  <a href="/course/{{ node.id }}/enroll"
-     class="btn btn-primary w-100">
-    Inscribirse
-  </a>
-
-{% endif %}
 
           <h5 class="mb-3">Progreso del curso</h5>
 
