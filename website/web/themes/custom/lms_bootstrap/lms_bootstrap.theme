@@ -1,0 +1,22 @@
+<?php
+
+use Drupal\Core\Render\Markup;
+
+function lms_bootstrap_preprocess_views_view_fields(&$variables) {
+
+  if ($variables['view']->id() === 'lecciones_del_curso') {
+    $user_id = Drupal::currentUser()->id();
+    $node = $variables['row']->_entity;
+    $lesson_id = $node->id();
+
+    $progress_service = Drupal::service('lms_progress.progress_service');
+
+    $variables['completed'] = $progress_service->isLessonCompleted(
+      $user_id,
+      $lesson_id
+    );
+
+    $variables['lesson_id'] = $lesson_id;
+
+  }
+}

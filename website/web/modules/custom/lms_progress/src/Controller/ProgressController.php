@@ -23,7 +23,7 @@ class ProgressController extends ControllerBase {
   }
 
   public function complete($lesson = NULL) {
-    if (!$lesson) {
+    if (!$lesson || !is_numeric($lesson)) {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
     }
 
@@ -35,8 +35,10 @@ class ProgressController extends ControllerBase {
     );
 
     $node = Node::load($lesson);
-
-    return new RedirectResponse($node->toUrl()->toString());
+    if ($node) {
+      return new RedirectResponse($node->toUrl()->toString());
+    }
+    return $this->redirect('<front>');
   }
 
 }

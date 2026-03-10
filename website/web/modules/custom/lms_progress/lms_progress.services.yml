@@ -1,5 +1,4 @@
 services:
-
   lms_progress.progress_service:
     class: Drupal\lms_progress\Service\ProgressService
     arguments: ['@database']

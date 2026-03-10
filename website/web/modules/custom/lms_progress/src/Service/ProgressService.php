@@ -44,4 +44,36 @@ class ProgressService {
     return (bool) $result;
   }
 
+  public function getCourseProgress($user_id, $course_id) {
+
+    $database = $this->database;
+
+    // Obtener lecciones del curso
+    $lesson_ids = $database->select('node__field_curso_padre', 'f')
+      ->fields('f', ['entity_id'])
+      ->condition('f.field_curso_padre_target_id', $course_id)
+      ->execute()
+      ->fetchCol();
+
+    if (empty($lesson_ids)) {
+      return 0;
+    }
+
+    // Lecciones completadas
+    $completed = $database->select('lms_lesson_progress', 'p')
+      ->condition('user_id', $user_id)
+      ->condition('lesson_id', $lesson_ids, 'IN')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+
+    $total = count($lesson_ids);
+
+    if ($total == 0) {
+      return 0;
+    }
+
+    return round(($completed / $total) * 100);
+  }
+
 }

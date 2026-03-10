@@ -21,3 +21,8 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+.progress {
+  border: 1px solid #e9ecef; /* Un borde casi imperceptible */
+  background-color: #f8f9fa; /* Un gris muy claro de fondo */
+}

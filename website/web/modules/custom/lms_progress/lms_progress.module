@@ -6,20 +6,32 @@ use Drupal\node\NodeInterface;
  * Implements hook_preprocess_node().
  */
 function lms_progress_preprocess_node(&$variables) {
+  /** @var \Drupal\node\NodeInterface $node */
   $node = $variables['node'];
+  $user_id = Drupal::currentUser()->id();
 
+  // Obtenemos el servicio una sola vez para eficiencia
+  $progress_service = Drupal::service('lms_progress.progress_service');
+
+  // Lógica para el nodo tipo LECCIÓN
   if ($node->bundle() === 'leccion') {
-    $user = Drupal::currentUser();
-    $service = Drupal::service('lms_progress.progress_service');
-
-    $completed = $service->isLessonCompleted(
-      $user->id(),
-      $node->id()
-    );
+    $completed = $progress_service->isLessonCompleted($user_id, $node->id());
 
     $variables['lesson_completed'] = $completed;
-    # Desactiva el cache para que el progreso se actualice en tiempo real
-    $variables['#cache']['max-age'] = 0;
 
+    // Manejo correcto del caché:
+    // Impedimos que se cachee para que el check de "completado" cambie al instante
+    $variables['#cache']['max-age'] = 0;
+  }
+
+  // Lógica para el nodo tipo CURSO
+  if ($node->bundle() === 'curso') {
+    $progress = $progress_service->getCourseProgress($user_id, $node->id());
+
+    // Nos aseguramos de pasar siempre un número
+    $variables['course_progress'] = $progress ? $progress : 0;
+
+    // También invalidamos caché aquí para que la barra suba al completar lecciones
+    $variables['#cache']['max-age'] = 0;
   }
 }

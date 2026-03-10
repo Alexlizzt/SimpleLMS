@@ -1,11 +1,28 @@
-{% set node_id = row.nid|default(fields.nid.content|striptags|trim) %}
+{% set node_id = fields.nid.content|striptags|trim %}
 
-<a href="{{ path('entity.node.canonical', {'node': node_id}) }}"
-   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+{% set lesson_url = path('entity.node.canonical', {'node': node_id}) %}
+{% set current = path('<current>') %}
+
+<a href="{{ lesson_url }}"
+   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
+   {% if lesson_url == current %}active{% endif %}">
+
   <span>
+
+    <span class="me-2">
+      {% if completed %}
+        <span class="text-success">✔</span>
+      {% else %}
+        <span class="text-secondary">○</span>
+      {% endif %}
+    </span>
+
     <strong class="me-2">
       {{ fields.field_orden.content }}.
     </strong>
+
     {{ fields.title.content }}
+
   </span>
+
 </a>

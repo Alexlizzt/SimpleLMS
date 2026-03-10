@@ -15,15 +15,46 @@
       </div>
 
       <hr class="my-5">
+
+      <h3 class="mb-4 fw-bold">Plan de estudios</h3>
+      <div class="lecciones-wrapper p-3 bg-light rounded">
+        {{ drupal_view('lecciones_del_curso', 'block_1', node.nid.value) }}
+      </div>
     </div>
     <div class="col-md-4">
-        <div class="card shadow-sm border-0">
-          <div class="card-body p-4 text-center">
-            <h4 class="mb-3">¡Comienza hoy!</h4>
-            <button class="btn btn-primary btn-lg w-100">
-              Inscribirse al curso
-            </button>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="mb-3">Progreso del curso</h5>
+
+          <div class="progress mb-2" style="height: 20px;">
+            <div
+              class="progress-bar bg-success"
+              role="progressbar"
+              style="width: {{ course_progress|default(0) }}%;"
+              aria-valuenow="{{ course_progress|default(0) }}"
+              aria-valuemin="0"
+              aria-valuemax="100">
+
+              {# Solo mostramos el texto dentro si hay espacio suficiente (ej. > 15%) #}
+              {% if course_progress > 15 %}
+                {{ course_progress }}%
+              {% endif %}
+            </div>
           </div>
+
+          {# Si el progreso es bajo, mostramos el % abajo o al lado para que no desaparezca #}
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">
+              {% if course_progress == 0 %}
+                Aún no has comenzado este curso
+              {% elseif course_progress == 100 %}
+                🎉 Curso completado
+              {% else %}
+                Sigue avanzando ({{ course_progress }}%)
+              {% endif %}
+            </small>
+          </div>
+
         </div>
       </div>
     </div>
