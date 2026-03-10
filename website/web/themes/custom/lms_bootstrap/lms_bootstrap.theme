@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Render\Markup;
+use Drupal\node\NodeInterface;
 
 function lms_bootstrap_preprocess_views_view_fields(&$variables) {
 
@@ -19,4 +20,24 @@ function lms_bootstrap_preprocess_views_view_fields(&$variables) {
     $variables['lesson_id'] = $lesson_id;
 
   }
+}
+
+function lms_bootstrap_preprocess_node(&$variables) {
+
+  $node = $variables['node'];
+
+  if ($node instanceof NodeInterface && $node->bundle() === 'curso') {
+
+    $user_id = Drupal::currentUser()->id();
+    $course_id = $node->id();
+
+    $progress_service = Drupal::service('lms_progress.progress_service');
+
+    $variables['is_enrolled'] = $progress_service->isUserEnrolled(
+      $user_id,
+      $course_id
+    );
+
+  }
+
 }

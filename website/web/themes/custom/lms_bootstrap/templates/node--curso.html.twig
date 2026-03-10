@@ -24,6 +24,22 @@
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
+
+{% if is_enrolled %}
+
+  <button class="btn btn-success w-100" disabled>
+    ✔ Ya estás inscrito
+  </button>
+
+{% else %}
+
+  <a href="/course/{{ node.id }}/enroll"
+     class="btn btn-primary w-100">
+    Inscribirse
+  </a>
+
+{% endif %}
+
           <h5 class="mb-3">Progreso del curso</h5>
 
           <div class="progress mb-2" style="height: 20px;">

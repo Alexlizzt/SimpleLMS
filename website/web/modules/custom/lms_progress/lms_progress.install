@@ -33,5 +33,65 @@ function lms_progress_schema() {
     'primary key' => ['id'],
   ];
 
+  // Tabla de inscripciones a cursos.
+  $schema['lms_course_enrollment'] = [
+    'description' => 'Stores course enrollments per user.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'user_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'course_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
   return $schema;
+}
+
+
+/**
+ * Add course enrollment table.
+ */
+function lms_progress_update_9001() {
+
+  $schema = \Drupal::database()->schema();
+
+  if (!$schema->tableExists('lms_course_enrollment')) {
+
+    $schema->createTable('lms_course_enrollment', [
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+        ],
+        'user_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+        ],
+        'course_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+        ],
+        'created' => [
+          'type' => 'int',
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+    ]);
+
+  }
+
 }

@@ -41,4 +41,22 @@ class ProgressController extends ControllerBase {
     return $this->redirect('<front>');
   }
 
+  public function enroll($course = NULL) {
+
+    if (!$course) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $user = $this->currentUser();
+
+    $this->progressService->enrollUser(
+      $user->id(),
+      $course
+    );
+
+    $node = Node::load($course);
+
+    return new RedirectResponse($node->toUrl()->toString());
+  }
+
 }

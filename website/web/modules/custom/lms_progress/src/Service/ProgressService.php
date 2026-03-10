@@ -76,4 +76,40 @@ class ProgressService {
     return round(($completed / $total) * 100);
   }
 
+  // Inscribir usuario en curso
+  public function enrollUser($user_id, $course_id) {
+
+    $exists = $this->database->select('lms_course_enrollment', 'e')
+      ->fields('e', ['id'])
+      ->condition('user_id', $user_id)
+      ->condition('course_id', $course_id)
+      ->execute()
+      ->fetchField();
+
+    if (!$exists) {
+
+      $this->database->insert('lms_course_enrollment')
+        ->fields([
+          'user_id' => $user_id,
+          'course_id' => $course_id,
+          'created' => time(),
+        ])
+        ->execute();
+
+    }
+  }
+
+  // Verificar si usuario está inscrito en curso
+  public function isUserEnrolled($user_id, $course_id) {
+    $result = $this->database->select('lms_course_enrollment', 'e')
+      ->fields('e', ['id'])
+      ->condition('user_id', $user_id)
+      ->condition('course_id', $course_id)
+      ->execute()
+      ->fetchField();
+
+    return (bool) $result;
+
+  }
+
 }
