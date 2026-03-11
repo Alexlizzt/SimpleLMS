@@ -83,3 +83,31 @@ function lms_progress_node_view(array &$build, NodeInterface $node, $display, $v
   }
 
 }
+
+
+/**
+ * Implements template_preprocess_views_view_fields().
+ */
+function lms_progress_preprocess_views_view_fields(&$variables) {
+  $view = $variables['view'];
+
+  if ($view->id() == 'mis_cursos') {
+    $node = $variables['row']->_entity;
+
+    if ($node instanceof \Drupal\node\NodeInterface) {
+      $uid = Drupal::currentUser()->id();
+
+      // 1. Lógica de progreso
+      $progress_service = Drupal::service('lms_progress.progress_service');
+      $variables['curso_progreso'] = $progress_service->getCourseProgress($uid, $node->id());
+      $variables['curso_id'] = $node->id();
+
+      // 2. Lógica de Imagen: Usamos el View Builder para respetar la configuración de Drupal
+      $field_name = 'field_imagen';
+      if ($node->hasField($field_name)) {
+        // Esto genera el render array usando el 'view mode' por defecto o el que prefieras
+        $variables['curso_imagen_render'] = $node->get($field_name)->view('teaser');
+      }
+    }
+  }
+}
