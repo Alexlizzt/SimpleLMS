@@ -1,0 +1,22 @@
+<div class="card shadow-sm mb-3">
+  {# Imprimimos el campo renderizado directamente #}
+  {% if curso_imagen_render %}
+    <div class="card-img-top">
+      {{ curso_imagen_render }}
+    </div>
+  {% endif %}
+
+  <div class="card-body">
+    <h5>{{ fields.title.content }}</h5>
+
+    <div class="progress mb-2">
+      <div class="progress-bar" role="progressbar" style="width: {{ curso_progreso }}%;">
+        {{ curso_progreso }}%
+      </div>
+    </div>
+
+    <a href="{{ path('entity.node.canonical', {'node': curso_id}) }}" class="btn btn-primary btn-sm">
+      Continuar curso
+    </a>
+  </div>
+</div>
