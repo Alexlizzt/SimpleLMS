@@ -32,7 +32,15 @@
   <div class="container">
     <h1 class="display-4 fw-bold">Bienvenido a Simple LMS</h1>
     <p class="lead">Aprende a tu ritmo con nuestros cursos online</p>
+
     <a href="/cursos" class="btn btn-light btn-lg mt-3">Explorar Cursos</a>
+
+    {# sólo lo ve un usuario autenticado #}
+    {% if logged_in %}
+      <a href="{{ path('view.mis_cursos.page_1') }}" class="btn btn-light btn-lg mt-3">
+        Mis cursos
+      </a>
+    {% endif %}
   </div>
 </section>
 
