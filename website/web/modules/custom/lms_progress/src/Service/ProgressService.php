@@ -112,4 +112,31 @@ class ProgressService {
 
   }
 
+  public function getNextLesson($user_id, $course_id) {
+    // La primera lección del curso que NO esté en la tabla de progreso del usuario
+    $query = $this->database->select('node__field_curso_padre', 'f');
+    $query->join('node_field_data', 'n', 'n.nid = f.entity_id'); // Para poder ordenar por creación o título si prefieres
+    $query->leftJoin('lms_lesson_progress', 'p', 'p.lesson_id = f.entity_id AND p.user_id = :uid', [':uid' => $user_id]);
+
+    $next_lesson = $query->fields('f', ['entity_id'])
+      ->condition('f.field_curso_padre_target_id', $course_id)
+      ->condition('p.lesson_id', NULL, 'IS NULL') // Filtra las que NO tienen registro de completado
+      ->orderBy('f.entity_id', 'ASC') // O un campo 'field_peso' si lo tienes
+      ->range(0, 1) // Solo queremos la primera
+      ->execute()
+      ->fetchField();
+
+    if ($next_lesson) {
+      return $next_lesson;
+    }
+
+    // Si no encontró ninguna (todas completadas), devolvemos la última lección del curso
+    return $this->database->select('node__field_curso_padre', 'f')
+      ->fields('f', ['entity_id'])
+      ->condition('f.field_curso_padre_target_id', $course_id)
+      ->orderBy('f.entity_id', 'DESC')
+      ->range(0, 1)
+      ->execute()
+      ->fetchField();
+  }
 }
