@@ -17,3 +17,9 @@ lms_progress.continue_course:
     _controller: '\Drupal\lms_progress\Controller\ProgressController::continueCourse'
   requirements:
     _permission: 'access content'
+lms_progress.certificate:
+  path: '/course/{course}/certificate'
+  defaults:
+    _controller: '\Drupal\lms_progress\Controller\ProgressController::certificate'
+  requirements:
+    _permission: 'access content'

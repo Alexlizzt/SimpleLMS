@@ -15,11 +15,18 @@
       </div>
     </div>
 
-    <a href="{{ path('entity.node.canonical', {'node': curso_id}) }}" class="btn btn-primary btn-sm">
-      Continuar curso
-    </a>
-    <a href="{{ path('lms_progress.continue_course', {'course': curso_id}) }}" class="btn btn-secondary btn-sm">
-  Última lección
-</a>
+    <div class="d-flex flex-wrap gap-1 mb-2">
+      <a href="{{ path('entity.node.canonical', {'node': curso_id}) }}" class="btn btn-primary btn-sm">
+        Continuar curso
+      </a>
+      <a href="{{ path('lms_progress.continue_course', {'course': curso_id}) }}" class="btn btn-secondary btn-sm">
+        Última lección
+      </a>
+      {% if course_complete %}
+        <a href="{{ path('lms_progress.certificate', {'course': curso_id}) }}" class="btn btn-success btn-sm">
+          Descargar certificado
+        </a>
+      {% endif %}
+    </div>
   </div>
 </div>

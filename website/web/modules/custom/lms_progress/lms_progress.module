@@ -108,6 +108,17 @@ function lms_progress_preprocess_views_view_fields(&$variables) {
         // Esto genera el render array usando el 'view mode' por defecto o el que prefieras
         $variables['curso_imagen_render'] = $node->get($field_name)->view('teaser');
       }
+
+      // 3. Estado de finalización del curso (para mostrar botón de certificado)
+      $variables['course_complete'] = $progress_service->isCourseComplete($uid, $node->id());
+
+      // También puede ser útil pasar el nodo completo o el ID
+      $variables['curso_id'] = $node->id();
+      $variables['node'] = $node;
+
+      // Evitamos caché para que el botón y el progreso se actualicen inmediatamente
+      $variables['#cache']['max-age'] = 0;
+      $variables['#cache']['contexts'][] = 'user';
     }
   }
 }

@@ -139,4 +139,24 @@ class ProgressService {
       ->execute()
       ->fetchField();
   }
+
+  // Verifica si el curso está completo (todas las lecciones completadas)
+  public function isCourseComplete($user_id, $course_id) {
+  $lesson_ids = $this->database->select('node__field_curso_padre', 'f')
+    ->fields('f', ['entity_id'])
+    ->condition('f.field_curso_padre_target_id', $course_id)
+    ->execute()
+    ->fetchCol();
+
+  if (empty($lesson_ids)) return FALSE;
+
+  $completed_count = $this->database->select('lms_lesson_progress', 'p')
+    ->condition('user_id', $user_id)
+    ->condition('lesson_id', $lesson_ids, 'IN')
+    ->countQuery()
+    ->execute()
+    ->fetchField();
+
+  return count($lesson_ids) === (int) $completed_count;
+}
 }

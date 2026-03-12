@@ -101,4 +101,28 @@ class ProgressController extends ControllerBase {
     // Redirección usando el objeto URL de Drupal (más limpio)
     return $this->redirect('entity.node.canonical', ['node' => $lesson_id]);
   }
+
+  public function certificate($course = NULL) {
+
+    $user = $this->currentUser();
+
+    $completed = $this->progressService->isCourseComplete(
+      $user->id(),
+      $course
+    );
+
+    if (!$completed) {
+      throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
+    }
+
+    $course_node = Node::load($course);
+
+    return [
+      '#markup' => '<h1>Certificado</h1>
+      <p>El usuario ' . $user->getAccountName() . '
+      ha completado el curso <strong>' .
+      $course_node->getTitle() .
+      '</strong></p>'
+    ];
+  }
 }
