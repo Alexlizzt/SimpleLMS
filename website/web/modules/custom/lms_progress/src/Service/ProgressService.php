@@ -142,21 +142,26 @@ class ProgressService {
 
   // Verifica si el curso está completo (todas las lecciones completadas)
   public function isCourseComplete($user_id, $course_id) {
-  $lesson_ids = $this->database->select('node__field_curso_padre', 'f')
-    ->fields('f', ['entity_id'])
-    ->condition('f.field_curso_padre_target_id', $course_id)
-    ->execute()
-    ->fetchCol();
+    $lesson_ids = $this->database->select('node__field_curso_padre', 'f')
+      ->fields('f', ['entity_id'])
+      ->condition('f.field_curso_padre_target_id', $course_id)
+      ->execute()
+      ->fetchCol();
 
-  if (empty($lesson_ids)) return FALSE;
+    if (empty($lesson_ids)) return FALSE;
 
-  $completed_count = $this->database->select('lms_lesson_progress', 'p')
-    ->condition('user_id', $user_id)
-    ->condition('lesson_id', $lesson_ids, 'IN')
-    ->countQuery()
-    ->execute()
-    ->fetchField();
+    $completed_count = $this->database->select('lms_lesson_progress', 'p')
+      ->condition('user_id', $user_id)
+      ->condition('lesson_id', $lesson_ids, 'IN')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
 
-  return count($lesson_ids) === (int) $completed_count;
-}
+    return count($lesson_ids) === (int) $completed_count;
+  }
+
+  // Genera un ID de certificado único para el usuario y curso
+  public function generateCertificateId($user_id, $course_id) {
+    return 'LMS-' . date('Y') . '-' . $user_id . '-' . $course_id;
+  }
 }

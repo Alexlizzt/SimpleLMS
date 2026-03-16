@@ -124,6 +124,31 @@ class ProgressController extends ControllerBase {
     $course_title = $course_node->getTitle();
     $date = date('F Y');
 
+    $certificate_id = $this->progressService->generateCertificateId(
+      $user->id(),
+      $course
+    );
+
+    $database = \Drupal::database();
+
+    $exists = $database->select('lms_certificates', 'c')
+      ->fields('c', ['id'])
+      ->condition('user_id', $user->id())
+      ->condition('course_id', $course)
+      ->execute()
+      ->fetchField();
+
+    if (!$exists) {
+      $database->insert('lms_certificates')
+        ->fields([
+          'certificate_id' => $certificate_id,
+          'user_id' => $user->id(),
+          'course_id' => $course,
+          'created' => time(),
+        ])
+        ->execute();
+    }
+
     $html = "
     <style>
     body {
@@ -167,7 +192,7 @@ class ProgressController extends ControllerBase {
       <p>por completar satisfactoriamente el curso</p>
 
       <div class='course'>$course_title</div>
-
+      <div class='date'> Certificate ID: $certificate_id </div>
       <div class='date'>Fecha: $date</div>
     </div>
     ";

@@ -57,6 +57,41 @@ function lms_progress_schema() {
     'primary key' => ['id'],
   ];
 
+  // Tabla de certificados emitidos.
+  $schema['lms_certificates'] = [
+    'description' => 'Stores issued course certificates.',
+    'fields' => [
+
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+
+      'certificate_id' => [
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+      ],
+
+      'user_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+
+      'course_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+
+    ],
+    'primary key' => ['id'],
+  ];
+
   return $schema;
 }
 
@@ -69,11 +104,48 @@ function lms_progress_update_9001() {
   $schema = \Drupal::database()->schema();
 
   if (!$schema->tableExists('lms_course_enrollment')) {
-
     $schema->createTable('lms_course_enrollment', [
       'fields' => [
         'id' => [
           'type' => 'serial',
+          'not null' => TRUE,
+        ],
+        'user_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+        ],
+        'course_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+        ],
+        'created' => [
+          'type' => 'int',
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+    ]);
+  }
+}
+
+/**
+ * Add certificates table.
+ */
+function lms_progress_update_9002() {
+
+  $schema = \Drupal::database()->schema();
+
+  if (!$schema->tableExists('lms_certificates')) {
+
+    $schema->createTable('lms_certificates', [
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+        ],
+        'certificate_id' => [
+          'type' => 'varchar',
+          'length' => 50,
           'not null' => TRUE,
         ],
         'user_id' => [
