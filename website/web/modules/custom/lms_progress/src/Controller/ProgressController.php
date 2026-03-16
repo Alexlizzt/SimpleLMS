@@ -11,6 +11,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Drupal\Core\Session\AccountInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProgressController extends ControllerBase {
 
@@ -117,12 +120,76 @@ class ProgressController extends ControllerBase {
 
     $course_node = Node::load($course);
 
-    return [
-      '#markup' => '<h1>Certificado</h1>
-      <p>El usuario ' . $user->getAccountName() . '
-      ha completado el curso <strong>' .
-      $course_node->getTitle() .
-      '</strong></p>'
-    ];
+    $username = $user->getAccountName();
+    $course_title = $course_node->getTitle();
+    $date = date('F Y');
+
+    $html = "
+    <style>
+    body {
+      font-family: DejaVu Sans, sans-serif;
+      text-align: center;
+      padding: 60px;
+    }
+
+    .certificate {
+      border: 8px solid #2c3e50;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 30px 0;
+    }
+
+    .course {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .date {
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    </style>
+
+    <div class='certificate'>
+      <h1>Certificado de Finalización</h1>
+
+      <p>Este certificado se otorga a</p>
+
+      <h2>$username</h2>
+
+      <p>por completar satisfactoriamente el curso</p>
+
+      <div class='course'>$course_title</div>
+
+      <div class='date'>Fecha: $date</div>
+    </div>
+    ";
+
+    $options = new Options();
+    $options->set('isRemoteEnabled', TRUE);
+
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
+
+    $pdf = $dompdf->output();
+
+    return new Response(
+      $pdf,
+      200,
+      [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="certificado-'.$course.'.pdf"',
+      ]
+    );
+
   }
 }
