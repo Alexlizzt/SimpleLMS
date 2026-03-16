@@ -217,4 +217,34 @@ class ProgressController extends ControllerBase {
     );
 
   }
+
+  // Verifica si el certificado es válido
+  public function verify($certificate_id) {
+    $database = \Drupal::database();
+
+    $record = $database->select('lms_certificates', 'c')
+      ->fields('c')
+      ->condition('certificate_id', $certificate_id)
+      ->execute()
+      ->fetchObject();
+
+    if (!$record) {
+      return [
+        '#markup' => '<h2>Certificado no válido</h2>',
+      ];
+    }
+
+    $user = \Drupal\user\Entity\User::load($record->user_id);
+    $course = Node::load($record->course_id);
+
+    return [
+      '#markup' =>
+        '<h1>Certificado verificado</h1>
+        <p>Usuario: '.$user->getAccountName().'</p>
+        <p>Curso: '.$course->getTitle().'</p>
+        <p>ID: '.$certificate_id.'</p>'
+    ];
+  }
+
+
 }
