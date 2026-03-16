@@ -14,6 +14,9 @@ use Drupal\Core\Session\AccountInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Component\HttpFoundation\Response;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+
 
 class ProgressController extends ControllerBase {
 
@@ -149,53 +152,93 @@ class ProgressController extends ControllerBase {
         ->execute();
     }
 
-    $html = "
-    <style>
+    $verify_url = \Drupal\Core\Url::fromRoute(
+      'lms_progress.verify_certificate',
+      ['certificate_id' => $certificate_id],
+      ['absolute' => TRUE]
+    )->toString();
+
+    $qr = new QrCode($verify_url);
+    $writer = new PngWriter();
+
+    $result = $writer->write($qr);
+
+    $qr_base64 = base64_encode($result->getString());
+
+    $html = '<style>
+    @page {
+        margin: 0; /* Sin márgenes físicos en la hoja */
+    }
     body {
-      font-family: DejaVu Sans, sans-serif;
-      text-align: center;
-      padding: 60px;
+        font-family: "DejaVu Sans", sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
     }
+    .certificate-container {
+        /* Posicionamiento absoluto para evitar saltos */
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
 
-    .certificate {
-      border: 8px solid #2c3e50;
-      padding: 40px;
+        border: 10px solid #2c3e50;
+        padding: 40px;
+        text-align: center;
+        box-sizing: border-box;
     }
-
     h1 {
-      font-size: 40px;
-      margin-bottom: 20px;
+        font-size: 38px;
+        margin-top: 30px;
+        color: #2c3e50;
     }
-
-    h2 {
-      margin: 30px 0;
+    .student-name {
+        font-size: 35px;
+        border-bottom: 2px solid #ccc;
+        display: inline-block;
+        padding: 10px 40px;
+        margin: 20px 0;
     }
-
     .course {
-      font-size: 26px;
-      font-weight: bold;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 15px 0;
     }
-
-    .date {
-      margin-top: 40px;
-      font-size: 14px;
+    .qr-section {
+        position: absolute;
+        bottom: 50px;
+        left: 0;
+        right: 0;
+    }
+    .verify-text {
+        font-size: 10px;
+        color: #7f8c8d;
+        margin-top: 10px;
     }
     </style>
 
-    <div class='certificate'>
-      <h1>Certificado de Finalización</h1>
+    <div class="certificate-container">
+        <h1>Certificado de Finalización</h1>
+        <p style="font-size: 18px;">Este certificado se otorga a</p>
 
-      <p>Este certificado se otorga a</p>
+        <div class="student-name">' . $username . '</div>
 
-      <h2>$username</h2>
+        <p style="font-size: 18px;">por completar satisfactoriamente el curso</p>
+        <div class="course">“' . $course_title . '”</div>
 
-      <p>por completar satisfactoriamente el curso</p>
+        <p>Fecha de emisión: ' . $date . '</p>
+        <p>ID de validación: <strong>' . $certificate_id . '</strong></p>
 
-      <div class='course'>$course_title</div>
-      <div class='date'> Certificate ID: $certificate_id </div>
-      <div class='date'>Fecha: $date</div>
-    </div>
-    ";
+        <div class="qr-section">
+            <img src="data:image/png;base64,' . $qr_base64 . '" width="90">
+            <div class="verify-text">
+                Verificar autenticidad en:<br>
+                ' . $verify_url . '
+            </div>
+        </div>
+    </div>';
 
     $options = new Options();
     $options->set('isRemoteEnabled', TRUE);
@@ -212,7 +255,7 @@ class ProgressController extends ControllerBase {
       200,
       [
         'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'attachment; filename="certificado-'.$course.'.pdf"',
+        'Content-Disposition' => 'attachment; filename="certificado-SimpleMLS-'.$course.'.pdf"',
       ]
     );
 

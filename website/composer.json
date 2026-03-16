@@ -27,7 +27,8 @@
         "drupal/pathauto": "^1.14",
         "drupal/token": "^1.17",
         "drupal/twig_tweak": "^3.4",
-        "drush/drush": "^13.7"
+        "drush/drush": "^13.7",
+        "endroid/qr-code": "^6.1"
     },
     "conflict": {
         "drupal/drupal": "*"
