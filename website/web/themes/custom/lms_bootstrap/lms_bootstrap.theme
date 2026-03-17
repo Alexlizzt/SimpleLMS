@@ -38,7 +38,7 @@ function lms_bootstrap_preprocess_node(&$variables) {
       $course_id
     );
 
-     $variables['course_completed'] = $progress_service->isCourseCompleted(
+     $variables['course_completed'] = $progress_service->isCourseComplete(
       $user_id,
       $course_id
     );
