@@ -28,4 +28,4 @@ lms_progress.verify_certificate:
   defaults:
     _controller: '\Drupal\lms_progress\Controller\ProgressController::verify'
   requirements:
-    _permission: 'access content'
+    _access: 'TRUE'
