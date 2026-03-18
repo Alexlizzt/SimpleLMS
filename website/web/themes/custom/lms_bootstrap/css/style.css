@@ -160,3 +160,25 @@ footer a:hover {
     color: #6c757d;
     margin-bottom: 15px;
 }
+
+/* Ajuste para el texto del instructor en la barra de navegación */
+.navbar-dark .text-light.small {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    padding-right: 15px;
+}
+
+/* Ajuste para que los botones de instructor no se amontonen en móvil */
+@media (max-width: 991px) {
+    .d-flex.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    .navbar-dark .text-light.small {
+        border-right: none;
+        padding-right: 0;
+    }
+}

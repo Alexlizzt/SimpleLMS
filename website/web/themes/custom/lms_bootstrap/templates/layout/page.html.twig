@@ -37,6 +37,17 @@
 
         <div class="d-flex align-items-center">
           {% if logged_in %}
+          <span class="text-light me-3 small">
+            Hola, <strong>{{ user.displayName }}</strong>
+          </span>
+            {% if 'instructor' in user.getRoles() %}
+            <a href="{{ path('node.add', {'node_type': 'curso'}) }}" class="btn btn-success btn-sm me-2">
+              + Crear Curso
+            </a>
+            <a href="{{ path('node.add', {'node_type': 'leccion'}) }}" class="btn btn-outline-success btn-sm me-3">
+              + Lección
+            </a>
+            {% endif %}
             <a href="{{ path('user.logout') }}" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
           {% else %}
             <a href="{{ path('user.login') }}" class="btn btn-outline-light btn-sm me-2">Iniciar Sesión</a>

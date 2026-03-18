@@ -2,6 +2,7 @@
 
 use Drupal\node\NodeInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -43,8 +44,11 @@ function lms_progress_preprocess_node(&$variables) {
 /**
  * Implements hook_node_access().
  */
-function lms_progress_node_access(NodeInterface $node, $op, AccountInterface $account) {
+function lms_progress_node_access(EntityInterface $node, $op, $account) {
 
+  if ($account instanceof \Drupal\Core\Session\AccountProxyInterface) {
+          $account = $account->getAccount();
+  }
   if ($op !== 'view') {
     return AccessResult::neutral();
   }
@@ -119,6 +123,30 @@ function lms_progress_preprocess_views_view_fields(&$variables) {
       // Evitamos caché para que el botón y el progreso se actualicen inmediatamente
       $variables['#cache']['max-age'] = 0;
       $variables['#cache']['contexts'][] = 'user';
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_presave().
+ * Este hook se ejecuta justo antes de guardar cualquier entidad (nodo, usuario, etc).
+ */
+function lms_progress_entity_presave(EntityInterface $entity) {
+  // Verificamos que sea un usuario y que sea nuevo (registro)
+  if ($entity->getEntityTypeId() === 'user' && $entity->isNew()) {
+
+    // IMPORTANTE: Verifica que el nombre de máquina sea field_user_role
+    if ($entity->hasField('field_user_role') && !$entity->get('field_user_role')->isEmpty()) {
+
+      $seleccion = $entity->get('field_user_role')->value;
+
+      // Asignación de roles según la selección
+      if ($seleccion === 'instructor') {
+        $entity->addRole('instructor');
+      }
+      elseif ($seleccion === 'estudiante') {
+        $entity->addRole('estudiante');
+      }
     }
   }
 }

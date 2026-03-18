@@ -46,18 +46,3 @@ function lms_bootstrap_preprocess_node(&$variables) {
 
 }
 
-
-/**
- * Asigna el rol basado en el campo seleccionado al registrarse.
- */
-function lms_bootstrap_user_presave(Drupal\Core\Entity\EntityInterface $entity) {
-  if ($entity->isNew()) {
-    $tipo = $entity->get('field_user_role')->value;
-
-    if ($tipo == 'estudiante') {
-      $entity->addRole('estudiante');
-    } elseif ($tipo == 'instructor') {
-      $entity->addRole('instructor');
-    }
-  }
-}
