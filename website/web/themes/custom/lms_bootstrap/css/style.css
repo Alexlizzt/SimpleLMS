@@ -91,3 +91,72 @@ footer a:hover {
 [data-drupal-selector="user-login-form"] .form-submit:hover {
     background-color: #018fe2 !important;
 }
+
+
+/* Estilos para el formulario de Registro */
+/* 1. Contenedor Principal del Registro (Centrado y Ancho) */
+[data-drupal-selector="user-register-form"] {
+    max-width: 550px; /* Un poco más ancho que el login por si hay más campos */
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e1e1e1;
+}
+
+/* 2. Títulos y etiquetas */
+[data-drupal-selector="user-register-form"] .form-item label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* 3. Inputs de texto, email y password */
+[data-drupal-selector="user-register-form"] input.form-text,
+[data-drupal-selector="user-register-form"] input.form-email,
+[data-drupal-selector="user-register-form"] input.form-password {
+    width: 100% !important;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box; /* Evita que se salga del borde */
+    margin-bottom: 5px;
+}
+
+/* 4. Estilo para el campo "Tipo de Usuario" (Select) */
+[data-drupal-selector="user-register-form"] select {
+    width: 100% !important;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* 5. Botón de Crear Cuenta */
+[data-drupal-selector="user-register-form"] .form-submit {
+    width: 100%;
+    background-color: #0071b3 !important;
+    color: white !important;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+[data-drupal-selector="user-register-form"] .form-submit:hover {
+    background-color: #018fe2 !important;
+}
+
+/* 6. Descripciones de Drupal (ej: "La contraseña debe tener...") */
+[data-drupal-selector="user-register-form"] .description {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+}

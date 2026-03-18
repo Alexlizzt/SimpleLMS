@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Render\Markup;
+use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
 
 function lms_bootstrap_preprocess_views_view_fields(&$variables) {
@@ -27,7 +28,6 @@ function lms_bootstrap_preprocess_node(&$variables) {
   $node = $variables['node'];
 
   if ($node instanceof NodeInterface && $node->bundle() === 'curso') {
-
     $user_id = Drupal::currentUser()->id();
     $course_id = $node->id();
 
@@ -42,7 +42,22 @@ function lms_bootstrap_preprocess_node(&$variables) {
       $user_id,
       $course_id
     );
-
   }
 
+}
+
+
+/**
+ * Asigna el rol basado en el campo seleccionado al registrarse.
+ */
+function lms_bootstrap_user_presave(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->isNew()) {
+    $tipo = $entity->get('field_user_role')->value;
+
+    if ($tipo == 'estudiante') {
+      $entity->addRole('estudiante');
+    } elseif ($tipo == 'instructor') {
+      $entity->addRole('instructor');
+    }
+  }
 }
