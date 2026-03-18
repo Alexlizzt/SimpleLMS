@@ -6,6 +6,18 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+/* 1. Estilo para cualquier link activo en el nav */
+.navbar-nav .nav-link.active {
+    color: #23aeff !important; /* El celeste brillante de tu archivo */
+    font-weight: bold;
+    border-bottom: 2px solid #23aeff;
+}
+
+/* 3. Ajuste para que el hover no se vea apagado */
+.nav-link:hover {
+    color: #018fe2 !important;
+}
+
 .hero {
   background: linear-gradient(90deg, #4a90e2, #50e3c2);
   color: white;
