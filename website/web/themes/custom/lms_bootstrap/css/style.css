@@ -38,3 +38,56 @@ footer a:hover {
   border: 1px solid #e9ecef; /* Un borde casi imperceptible */
   background-color: #f8f9fa; /* Un gris muy claro de fondo */
 }
+
+/* Estilos para el formulario de Login */
+/* Centrar y limitar el ancho del formulario de login de Drupal */
+[data-drupal-selector="user-login-form"] {
+    max-width: 450px; /* Ancho ideal para una tarjeta de login */
+    margin: 2rem auto; /* Centra horizontalmente y da espacio arriba/abajo */
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e1e1e1;
+}
+
+/* Estilo para los títulos dentro del login */
+[data-drupal-selector="user-login-form"] h1,
+.path-user .page-title {
+    text-align: center;
+    color: #0071b3;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Ajuste de los campos de texto para que se vean modernos */
+[data-drupal-selector="user-login-form"] .form-item {
+    margin-bottom: 1.2rem;
+}
+
+[data-drupal-selector="user-login-form"] input.form-text,
+[data-drupal-selector="user-login-form"] input.form-password {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box; /* Evita que el input se salga del contenedor */
+}
+
+/* El botón de Iniciar Sesión */
+[data-drupal-selector="user-login-form"] .form-submit {
+    width: 100%;
+    background-color: #0071b3 !important;
+    color: white !important;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+[data-drupal-selector="user-login-form"] .form-submit:hover {
+    background-color: #018fe2 !important;
+}
