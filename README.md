@@ -52,25 +52,27 @@ cd SimpleLMS
 docker compose up -d --build
 ~~~
 
-### 3. Instalar dependencias
+### 3. Instalar dependencias / Configurar proyecto
 ~~~bash
-docker compose exec app composer install
+docker compose exec app bash install vendor/bin/
 ~~~
 
-### 4. Instalar Drupal
+### 4. Acceso
 Abrir en el navegador:
 
 http://localhost:8080
 
 Configuración de base de datos:
 
-- Host: db
+- Host: drupal_db
 - Nombre: drupal
-- Usuario: drupal
-- Password: drupal
+- Usuario: drupal_user
+- Password: drupal_password
 
 *NOTA: Se incluye un fichero **.env** en caso que se desee cambiar las credenciales*
 
+Usuario:
+admin/admin
 
 ### 📬 Mailpit
 
