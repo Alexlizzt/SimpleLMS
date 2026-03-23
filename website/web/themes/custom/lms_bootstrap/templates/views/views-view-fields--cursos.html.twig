@@ -1,25 +1,32 @@
-<div class="card h-100 shadow-sm d-flex flex-column">
+<div class="card h-100 border-0 shadow-lg hover-lift-subtle overflow-hidden">
 
-  {# Imagen con relación de aspecto fija para que no deforme la card #}
-  <div class="curso-imagen mb-0" style="aspect-ratio: 16 / 9; overflow: hidden;">
-    {{ fields.field_imagen.content }}
+  {# Contenedor de imagen con un efecto de zoom al pasar el mouse #}
+  <div class="position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
+    <div class="curso-imagen-wrapper transition-zoom">
+      {{ fields.field_imagen.content }}
+    </div>
   </div>
 
-  <div class="card-body d-flex flex-column flex-grow-1">
-    {# Título con altura mínima o truncado si es muy largo #}
-    <h5 class="card-title text-primary fw-bold mb-2" style="min-height: 3rem;">
+  <div class="card-body d-flex flex-column p-4">
+    {# Título con un color más sobrio pero elegante #}
+    <h5 class="card-title fw-bold mb-2 text-dark" style="min-height: 3rem; line-height: 1.4;">
       {{ fields.title.content }}
     </h5>
 
-    {# Descripción con flex-grow para empujar el botón hacia abajo #}
-    <div class="card-text text-muted small mb-3 flex-grow-1">
+    {# Meta información (Duración/Nivel) - Esto le da mucha profesionalidad #}
+    <div class="d-flex align-items-center mb-3 small text-muted">
+       <span class="me-3">⏱ 12h de contenido</span>
+    </div>
+
+    {# Descripción con truncado limpio #}
+    <div class="card-text text-muted mb-4 flex-grow-1" style="font-size: 0.9rem; line-height: 1.6;">
       {{ fields.field_descripcion.content }}
     </div>
 
-    {# El contenedor del botón siempre se irá al fondo gracias al flex-grow del texto #}
-    <div class="mt-auto pt-3">
-      <a href="{{ path('entity.node.canonical', {'node': row.nid}) }}" class="btn btn-primary w-100">
-        Ver curso
+    {# Botón con diseño más moderno #}
+    <div class="mt-auto">
+      <a href="{{ path('entity.node.canonical', {'node': row.nid}) }}" class="btn btn-primary w-100 py-2 fw-bold rounded-pill shadow-sm">
+        Empezar a aprender
       </a>
     </div>
   </div>

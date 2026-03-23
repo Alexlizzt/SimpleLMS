@@ -3,6 +3,7 @@
 use Drupal\node\NodeInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Mail\MailManagerInterface;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -149,4 +150,54 @@ function lms_progress_entity_presave(EntityInterface $entity) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_mail().
+ *  Constructor del correo
+ */
+function lms_progress_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'course_enrollment':
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['message'];
+      break;
+    // Pasar los adjuntos al mensaje para que el módulo SMTP los vea
+    case 'certificate': // Agregamos este caso
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['message'];
+
+      // Pasar los adjuntos al mensaje para que el módulo SMTP los vea
+      if (isset($params['attachments'])) {
+        $message['params']['attachments'] = $params['attachments'];
+      }
+      break;
+  }
+}
+
+/**
+ * Enviar correo de inscripción.
+ */
+function lms_progress_send_enrollment_email($user, $course) {
+
+  $mailManager = Drupal::service('plugin.manager.mail');
+
+  // Generar la URL absoluta al curso
+  $course_url = $course->toUrl('canonical', ['absolute' => TRUE])->toString();
+
+  $module = 'lms_progress';
+  $key = 'course_enrollment';
+  $to = $user->getEmail();
+  $langcode = $user->getPreferredLangcode();
+
+  $params['subject'] = 'Te has inscrito a un curso 🎓';
+  $params['message'] = "¡Hola, " . $user->getDisplayName() . "!\n\n" .
+    "Es un gusto confirmarte que ya tienes acceso al curso:\n" .
+    "👉 " . $course->label() . "\n\n" .
+    "Puedes comenzar tu aprendizaje haciendo clic en el siguiente enlace:\n" .
+    $course_url . "\n\n" .
+    "¡Mucho éxito en tu formación! 🎓";
+
+  // Añadimos NULL para el reply-to y TRUE para enviar inmediatamente
+  $mailManager->mail($module, $key, $to, $langcode, $params, NULL, TRUE);
 }

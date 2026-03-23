@@ -1,22 +1,24 @@
-<article class="lesson-content" {{ attributes }}>
-  <h1>{{ label }}</h1>
+<div class="container">
+  <article class="lesson-content" {{ attributes }}>
+    <h1>{{ label }}</h1>
 
-  <div class="lesson-body">
-    {{ content }}
-  </div>
-</article>
+    <div class="lesson-body">
+      {{ content }}
+    </div>
+  </article>
 
-{% if lesson_completed %}
+  {% if lesson_completed %}
 
-  <button class="btn btn-success mt-3" disabled>
-    ✔ Lección completada
-  </button>
+    <button class="btn btn-success mt-3" disabled>
+      ✔ Lección completada
+    </button>
 
-{% else %}
+  {% else %}
 
-  <a href="/lesson/{{ node.id }}/complete"
-     class="btn btn-primary mt-3">
-     Marcar como completada
-  </a>
+    <a href="/lesson/{{ node.id }}/complete"
+      class="btn btn-primary mt-3">
+      Marcar como completada
+    </a>
 
-{% endif %}
+  {% endif %}
+</div>

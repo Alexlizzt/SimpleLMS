@@ -1,95 +1,94 @@
-<!DOCTYPE html>
-<html{{ html_attributes }}>
-  <head>
-    <head-placeholder token="{{ placeholder_token }}">
-    <title>{{ head_title|safe_join(' | ') }}</title>
-    <css-placeholder token="{{ placeholder_token }}">
-    <js-placeholder token="{{ placeholder_token }}">
-  </head>
-  <body{{ attributes.addClass('d-flex','flex-column','min-vh-100') }}>
+<body{{ attributes.addClass('d-flex','flex-column','min-vh-100') }}>
 
   <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="{{ path('<front>') }}">
-        <img src="../{{ directory }}/logo.svg" alt="Logo" height="40">
-      </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{{ path('<front>') }}">
+          <img src="../{{ directory }}/logo.svg" alt="Logo" height="40" class="me-2">
+          <span class="fw-bold">Simple LMS</span>
+        </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link nav-explorar" href="/cursos">Explorar Cursos</a>
-          </li>
-
-          {# Enlace persistente de Mis Cursos solo para logueados #}
-          {% if logged_in %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link nav-mis-cursos" href="{{ path('view.mis_cursos.page_1') }}">
-                Mis Cursos
-              </a>
+              <a class="nav-link nav-explorar px-3" href="/cursos">Explorar Cursos</a>
             </li>
-          {% endif %}
-        </ul>
-
-        <div class="d-flex align-items-center">
-          {% if logged_in %}
-          <span class="text-light me-3 small">
-            Hola, <strong>{{ user.displayName }}</strong>
-          </span>
-            {% if 'instructor' in user.getRoles() %}
-            <a href="{{ path('node.add', {'node_type': 'curso'}) }}" class="btn btn-success btn-sm me-2">
-              + Crear Curso
-            </a>
-            <a href="{{ path('node.add', {'node_type': 'leccion'}) }}" class="btn btn-outline-success btn-sm me-3">
-              + Lección
-            </a>
+            {% if logged_in %}
+              <li class="nav-item">
+                <a class="nav-link nav-mis-cursos px-3" href="{{ path('view.mis_cursos.page_1') }}">Mis Cursos</a>
+              </li>
             {% endif %}
-            <a href="{{ path('user.logout') }}" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
-          {% else %}
-            <a href="{{ path('user.login') }}" class="btn btn-outline-light btn-sm me-2">Iniciar Sesión</a>
-            <a href="{{ path('user.register') }}" class="btn btn-primary btn-sm">Registrarse</a>
-          {% endif %}
+          </ul>
+
+          <div class="d-flex align-items-center">
+            {% if logged_in %}
+              <div class="dropdown me-3">
+                <span class="text-light small">
+                  Hola, <strong>{{ user.displayName }}</strong>
+                </span>
+              </div>
+              {% if 'instructor' in user.getRoles() %}
+                <a href="{{ path('node.add', {'node_type': 'curso'}) }}" class="btn btn-success btn-sm me-2">+ Curso</a>
+              {% endif %}
+              <a href="{{ path('user.logout') }}" class="btn btn-outline-danger btn-sm">Salir</a>
+            {% else %}
+              <a href="{{ path('user.login') }}" class="btn btn-outline-light btn-sm me-2">Entrar</a>
+              <a href="{{ path('user.register') }}" class="btn btn-primary btn-sm px-3">Registrarse</a>
+            {% endif %}
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
   </header>
 
-  <section class="hero bg-primary text-white py-5 text-center">
+  {# Quitamos el Hero fijo de aquí para que no se duplique con el de tu landing #}
+
+  <main class="flex-fill">
+    {# Aquí cae todo el diseño de secciones que hemos construido (Hero, Beneficios, Cursos, CTA) #}
+    {{ page.content }}
+  </main>
+
+  <footer class="bg-dark text-white-50 py-5 mt-auto">
     <div class="container">
-      <h1 class="display-4 fw-bold">Bienvenido a Simple LMS</h1>
-      <p class="lead">Lleva tu conocimiento al siguiente nivel.</p>
-
-      {% if not logged_in %}
-        <a href="{{ path('user.register') }}" class="btn btn-warning btn-lg mt-3 fw-bold">¡Empieza a aprender ahora!</a>
-        <p class="mt-2 small text-white-50">Únete a nuestra comunidad de estudiantes.</p>
-      {% else %}
-        <a href="{{ path('view.mis_cursos.page_1') }}" class="btn btn-light btn-lg mt-3">Continuar mis estudios</a>
-      {% endif %}
-    </div>
-  </section>
-
-    <main class="flex-fill py-4">
-      <div class="container">
-        {{ page.content }}
-      </div>
-    </main>
-
-    <footer class="bg-light py-4 mt-auto">
-      <div class="container text-center">
-        <div class="row">
-          <div class="col-md-4">Contacto: contacto@simplelms.com</div>
-          <div class="col-md-4">Enlaces: <a href="#">FAQ</a> | <a href="#">Soporte</a></div>
-          <div class="col-md-4">Redes Sociales: <a href="#">Twitter</a> | <a href="#">Facebook</a></div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="text-white fw-bold mb-3">Simple LMS</h5>
+          <p class="small">La plataforma educativa donde aprendes con proyectos reales y mentoría constante.</p>
         </div>
-        <small class="d-block mt-3">© {{ "now"|date("Y") }} Simple LMS</small>
+        <div class="col-md-2 offset-md-1">
+          <h6 class="text-white fw-bold mb-3">Enlaces</h6>
+          <ul class="list-unstyled small">
+            <li><a href="#" class="text-decoration-none text-white-50">FAQ</a></li>
+            <li><a href="#" class="text-decoration-none text-white-50">Soporte</a></li>
+            <li><a href="#" class="text-decoration-none text-white-50">Términos</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="text-white fw-bold mb-3">Comunidad</h6>
+          <ul class="list-unstyled small">
+            <li><a href="#" class="text-decoration-none text-white-50">Twitter</a></li>
+            <li><a href="#" class="text-decoration-none text-white-50">Facebook</a></li>
+            <li><a href="#" class="text-decoration-none text-white-50">Discord</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-white fw-bold mb-3">Contacto</h6>
+          <p class="small mb-1">contacto@simplelms.com</p>
+          <div class="mt-3">
+             <i class="bi bi-envelope me-2"></i>
+          </div>
+        </div>
       </div>
-    </footer>
+      <hr class="my-4 border-secondary">
+      <div class="text-center small">
+        © {{ "now"|date("Y") }} Simple LMS. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
 
-    <js-bottom-placeholder token="{{ placeholder_token }}">
-  </body>
-</html>
+  <js-bottom-placeholder token="{{ placeholder_token }}">
+</body>

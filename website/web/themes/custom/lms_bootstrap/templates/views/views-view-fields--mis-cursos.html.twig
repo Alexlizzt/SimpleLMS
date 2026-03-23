@@ -1,32 +1,90 @@
-<div class="card shadow-sm mb-3">
-  {# Imprimimos el campo renderizado directamente #}
-  {% if curso_imagen_render %}
-    <div class="card-img-top">
-      {{ curso_imagen_render }}
-    </div>
-  {% endif %}
+<div class="container py-5">
+<div class="card border-0 shadow-sm mb-4 overflow-hidden hover-shadow-transition">
+  <div class="row g-0 align-items-center">
 
-  <div class="card-body">
-    <h5>{{ fields.title.content }}</h5>
-
-    <div class="progress mb-2">
-      <div class="progress-bar" role="progressbar" style="width: {{ curso_progreso }}%;">
-        {{ curso_progreso }}%
+    {# Imagen del curso a la izquierda (en desktop) #}
+    <div class="col-md-3">
+      <div class="position-relative" style="aspect-ratio: 16/9; overflow: hidden;">
+        {% if curso_imagen_render %}
+          <div class="h-100 w-100 object-fit-cover">
+            {{ curso_imagen_render }}
+          </div>
+        {% endif %}
+        {% if course_complete %}
+          <div class="position-absolute top-0 start-0 w-100 h-100 bg-success bg-opacity-25 d-flex align-items-center justify-content-center">
+            <span class="badge bg-success rounded-pill px-3 shadow-sm">✅ Completado</span>
+          </div>
+        {% endif %}
       </div>
     </div>
 
-    <div class="d-flex flex-wrap gap-1 mb-2">
-      <a href="{{ path('entity.node.canonical', {'node': curso_id}) }}" class="btn btn-primary btn-sm">
-        Continuar curso
-      </a>
-      <a href="{{ path('lms_progress.continue_course', {'course': curso_id}) }}" class="btn btn-secondary btn-sm">
-        Última lección
-      </a>
-      {% if course_complete %}
-        <a href="{{ path('lms_progress.certificate', {'course': curso_id}) }}" class="btn btn-success btn-sm">
-          Descargar certificado
-        </a>
-      {% endif %}
+    {# Contenido y Progreso #}
+    <div class="col-md-9">
+      <div class="card-body p-4 d-flex flex-column h-100">
+
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <h5 class="card-title fw-bold mb-3 text-dark"
+              style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 3rem; line-height: 1.5rem;">
+            {{ fields.title.content }}
+          </h5>
+          <span class="badge bg-light text-primary border">{{ curso_progreso }}% completo</span>
+        </div>
+
+        {# Lógica de color progreso #}
+        {% set color_clase = 'bg-secondary' %}
+        {% if curso_progreso > 0 and curso_progreso < 100 %}
+          {% set color_clase = 'bg-primary' %}
+        {% elseif curso_progreso == 100 %}
+          {% set color_clase = 'bg-success' %}
+        {% endif %}
+
+        <div class="progress mb-4" style="height: 12px; border-radius: 6px; background-color: #e9ecef;">
+          <div class="progress-bar progress-bar-striped {{ curso_progreso > 0 ? 'progress-bar-animated' : '' }} {{ color_clase }}"
+              role="progressbar"
+              style="width: {{ curso_progreso }}%;"
+              aria-valuenow="{{ curso_progreso }}"
+              aria-valuemin="0"
+              aria-valuemax="100">
+            {% if curso_progreso > 5 %}
+              <span class="small fw-bold">{{ curso_progreso }}%</span>
+            {% endif %}
+          </div>
+        </div>
+
+        {# Empujamos todo el bloque de acciones al fondo de la card #}
+        <div class="mt-auto pt-3">
+
+          {# BLOQUE 1: Acción Principal (Centrada) #}
+          <div class="text-center mb-3">
+            <a href="{{ path('lms_progress.continue_course', {'course': curso_id}) }}"
+              class="btn btn-primary btn-lg rounded-pill px-5 shadow fw-bold hover-scale w-100 w-md-auto">
+              <i class="bi bi-play-circle-fill me-2"></i>
+              {{ course_complete ? 'Repasar curso' : 'Continuar lección' }}
+            </a>
+          </div>
+
+          {# BLOQUE 2: Acciones Secundarias (Abajo y alineadas) #}
+          <div class="border-top pt-3 d-flex justify-content-center gap-3">
+
+            {# Detalles #}
+            <a href="{{ path('entity.node.canonical', {'node': curso_id}) }}"
+              class="btn btn-link btn-sm text-muted text-decoration-none hover-dark">
+              <i class="bi bi-eye me-1"></i> Ver detalles
+            </a>
+
+            {# Certificado (solo si aplica) #}
+            {% if course_complete %}
+              <a href="{{ path('lms_progress.certificate', {'course': curso_id}) }}"
+                class="btn btn-outline-success btn-sm px-3 rounded-pill">
+                <i class="bi bi-download me-1"></i> Certificado
+              </a>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
+</div>
 </div>

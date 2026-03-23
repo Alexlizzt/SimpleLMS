@@ -79,6 +79,9 @@ class ProgressService {
   // Inscribir usuario en curso
   public function enrollUser($user_id, $course_id) {
 
+    if ($course_id instanceof \Drupal\node\NodeInterface) {
+      $course_id = $course_id->id();
+    }
     $exists = $this->database->select('lms_course_enrollment', 'e')
       ->fields('e', ['id'])
       ->condition('user_id', $user_id)
@@ -96,6 +99,14 @@ class ProgressService {
         ])
         ->execute();
 
+      // --- CARGA DE ENTIDADES PARA EL CORREO ---
+      $user = \Drupal\user\Entity\User::load($user_id);
+      $course = \Drupal\node\Entity\Node::load($course_id);
+
+      if ($user && $course) {
+        // Llamamos a la función que tienes en el .module
+        lms_progress_send_enrollment_email($user, $course);
+      }
     }
   }
 
