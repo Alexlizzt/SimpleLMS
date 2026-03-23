@@ -54,7 +54,7 @@ docker compose up -d --build
 
 ### 3. Instalar dependencias / Configurar proyecto
 ~~~bash
-docker compose exec app bash install vendor/bin/
+docker compose exec app bash ./scripts/setup.sh
 ~~~
 
 ### 4. Acceso
