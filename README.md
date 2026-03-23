@@ -31,6 +31,7 @@ El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, 
 - Creación de cursos
 - Relación curso → lecciones
 - Control de acceso por inscripción
+- Generación de certificado de finalización en pdf
 
 ### 📊 Progreso
 - Cálculo automático de porcentaje completado
@@ -71,7 +72,7 @@ Configuración de base de datos:
 *NOTA: Se incluye un fichero **.env** en caso que se desee cambiar las credenciales*
 
 
-### 📬 Mailhog
+### 📬 Mailpit
 
 Interfaz disponible en:
 

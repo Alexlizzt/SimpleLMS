@@ -1,0 +1,23 @@
+uuid: 9d1896b4-823f-4699-97c0-aa3d9679ff2a
+langcode: es
+status: false
+dependencies:
+  module:
+    - search
+  theme:
+    - lms_bootstrap
+_core:
+  default_config_hash: pbbed0hdqGDF-_QWVVTWRAwgDIotFuAvWH5mWUZu0fA
+id: lms_bootstrap_search_form_wide
+theme: lms_bootstrap
+region: header
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Formulario de búsqueda (ancho)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

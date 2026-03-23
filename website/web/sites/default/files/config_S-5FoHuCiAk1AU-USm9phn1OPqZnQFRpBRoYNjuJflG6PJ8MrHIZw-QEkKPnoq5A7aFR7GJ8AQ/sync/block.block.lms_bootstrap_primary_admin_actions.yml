@@ -1,0 +1,20 @@
+uuid: 85be05b0-0533-4e24-87c9-50cbe275fd5d
+langcode: es
+status: false
+dependencies:
+  theme:
+    - lms_bootstrap
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: lms_bootstrap_primary_admin_actions
+theme: lms_bootstrap
+region: header
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Acciones principales de administración'
+  label_display: '0'
+  provider: core
+visibility: {  }

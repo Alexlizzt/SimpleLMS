@@ -176,3 +176,25 @@ function lms_progress_update_9002() {
   }
 
 }
+
+/**
+ * Añadir índices de unicidad para evitar duplicados.
+ */
+function lms_progress_update_9003() {
+  $schema = \Drupal::database()->schema();
+
+  // Añadir Unique Key a inscripciones
+  if ($schema->tableExists('lms_course_enrollment')) {
+    $schema->addUniqueKey('lms_course_enrollment', 'user_course', ['user_id', 'course_id']);
+  }
+
+  // Añadir Unique Key a lecciones
+  if ($schema->tableExists('lms_lesson_progress')) {
+    $schema->addUniqueKey('lms_lesson_progress', 'user_lesson', ['user_id', 'lesson_id']);
+  }
+
+  // Añadir Unique Key a certificados
+  if ($schema->tableExists('lms_certificates')) {
+    $schema->addUniqueKey('lms_certificates', 'user_course_cert', ['user_id', 'course_id']);
+  }
+}

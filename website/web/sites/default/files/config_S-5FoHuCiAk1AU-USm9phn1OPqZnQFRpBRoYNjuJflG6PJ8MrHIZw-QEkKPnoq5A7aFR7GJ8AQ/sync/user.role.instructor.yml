@@ -1,0 +1,25 @@
+uuid: ce01c894-8b33-4a94-b8d2-a934f47f2a50
+langcode: es
+status: true
+dependencies:
+  config:
+    - node.type.curso
+    - node.type.leccion
+  module:
+    - node
+id: instructor
+label: Instructor
+weight: 5
+is_admin: false
+permissions:
+  - 'create curso content'
+  - 'create leccion content'
+  - 'delete curso revisions'
+  - 'delete leccion revisions'
+  - 'delete own curso content'
+  - 'delete own leccion content'
+  - 'edit own curso content'
+  - 'edit own leccion content'
+  - 'revert curso revisions'
+  - 'revert leccion revisions'
+  - 'view curso revisions'

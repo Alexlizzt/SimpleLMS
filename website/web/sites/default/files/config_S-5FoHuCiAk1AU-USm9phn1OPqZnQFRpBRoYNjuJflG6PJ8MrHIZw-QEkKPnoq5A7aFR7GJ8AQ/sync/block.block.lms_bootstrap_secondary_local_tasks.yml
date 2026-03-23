@@ -1,0 +1,22 @@
+uuid: 27aede07-af86-44de-8750-2ed83f19847e
+langcode: es
+status: false
+dependencies:
+  theme:
+    - lms_bootstrap
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: lms_bootstrap_secondary_local_tasks
+theme: lms_bootstrap
+region: header
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Solapas secundarias'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }
