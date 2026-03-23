@@ -4,45 +4,31 @@ use Drupal\Core\Render\Markup;
 use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
 
-function lms_bootstrap_preprocess_views_view_fields(&$variables) {
-
-  if ($variables['view']->id() === 'lecciones_del_curso') {
-    $user_id = Drupal::currentUser()->id();
-    $node = $variables['row']->_entity;
-    $lesson_id = $node->id();
-
-    $progress_service = Drupal::service('lms_progress.progress_service');
-
-    $variables['completed'] = $progress_service->isLessonCompleted(
-      $user_id,
-      $lesson_id
-    );
-
-    $variables['lesson_id'] = $lesson_id;
-
-  }
-}
-
 function lms_bootstrap_preprocess_node(&$variables) {
-
   $node = $variables['node'];
 
   if ($node instanceof NodeInterface && $node->bundle() === 'curso') {
-    $user_id = Drupal::currentUser()->id();
+
+    $current_user = Drupal::currentUser();
+
+    // ⚠️ Evita lógica innecesaria para usuarios anónimos
+    if ($current_user->isAnonymous()) {
+      return;
+    }
+
+    $user_id = $current_user->id();
     $course_id = $node->id();
 
     $progress_service = Drupal::service('lms_progress.progress_service');
 
-    $variables['is_enrolled'] = $progress_service->isUserEnrolled(
-      $user_id,
-      $course_id
-    );
+    $variables['is_enrolled'] = $progress_service->isUserEnrolled($user_id, $course_id);
+    $variables['course_completed'] = $progress_service->isCourseComplete($user_id, $course_id);
 
-     $variables['course_completed'] = $progress_service->isCourseComplete(
-      $user_id,
-      $course_id
-    );
+    // ✅ CLAVE: cache por usuario
+    $variables['#cache']['contexts'][] = 'user';
+
+    // 🔥 EXTRA PRO (muy recomendado)
+    $variables['#cache']['tags'][] = 'node:' . $course_id;
   }
-
 }
 

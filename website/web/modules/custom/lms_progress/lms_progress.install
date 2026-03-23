@@ -31,6 +31,9 @@ function lms_progress_schema() {
       ],
     ],
     'primary key' => ['id'],
+    'unique keys' => [
+      'user_lesson' => ['user_id', 'lesson_id'], // Un registro por lección/usuario
+    ],
   ];
 
   // Tabla de inscripciones a cursos.
@@ -55,6 +58,9 @@ function lms_progress_schema() {
       ],
     ],
     'primary key' => ['id'],
+    'unique keys' => [
+      'user_course' => ['user_id', 'course_id'], // Un registro por curso/usuario
+    ],
   ];
 
   // Tabla de certificados emitidos.
@@ -90,6 +96,9 @@ function lms_progress_schema() {
 
     ],
     'primary key' => ['id'],
+    'unique keys' => [
+      'user_course_cert' => ['user_id', 'course_id'], // Un certificado por curso/usuario
+    ],
   ];
 
   return $schema;
