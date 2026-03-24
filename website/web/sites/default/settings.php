@@ -885,7 +885,7 @@ $config['smtp.settings'] = [
   'smtp_from' => 'lms@ejemplo.com',
   'smtp_fromname' => 'LMS Academy',
 ];
-$settings['config_sync_directory'] = 'sites/default/files/config_S-5FoHuCiAk1AU-USm9phn1OPqZnQFRpBRoYNjuJflG6PJ8MrHIZw-QEkKPnoq5A7aFR7GJ8AQ/sync';
+$settings['config_sync_directory'] = '../config/sync';
 /**
  * Trusted Host Patterns para desarrollo local.
  */

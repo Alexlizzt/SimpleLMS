@@ -1,0 +1,18 @@
+uuid: f1680e83-b3cb-488e-8ac6-9f2af657caac
+langcode: es
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Leccion
+type: leccion
+description: 'Conocimientos teórico prácticos que hacen parte de un curso'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

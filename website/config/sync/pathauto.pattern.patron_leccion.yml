@@ -1,0 +1,22 @@
+uuid: f73af883-5cea-4d24-9aa5-1da0b0ecb4a8
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+id: patron_leccion
+label: 'patron leccion'
+type: 'canonical_entities:node'
+pattern: '/cursos/[node:field_curso_padre:entity:title]/[node:title]'
+selection_criteria:
+  9ff96933-b24e-4e81-8719-8fc0ba714a78:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 9ff96933-b24e-4e81-8719-8fc0ba714a78
+    context_mapping:
+      node: node
+    bundles:
+      leccion: leccion
+selection_logic: and
+weight: -5
+relationships: {  }

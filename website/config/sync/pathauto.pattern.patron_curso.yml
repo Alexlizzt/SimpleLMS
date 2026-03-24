@@ -1,0 +1,22 @@
+uuid: 96209a36-4cef-4ec7-8d24-e546f2b284d5
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+id: patron_curso
+label: 'patron curso'
+type: 'canonical_entities:node'
+pattern: '/curso/[node:title]'
+selection_criteria:
+  9d212778-1967-4c36-a8f3-68690b1ac11b:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 9d212778-1967-4c36-a8f3-68690b1ac11b
+    context_mapping:
+      node: node
+    bundles:
+      curso: curso
+selection_logic: and
+weight: -5
+relationships: {  }

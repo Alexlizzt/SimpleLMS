@@ -1,0 +1,29 @@
+uuid: c8df0e4a-653c-4929-b06c-8a500fb82155
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_curso_padre
+    - node.type.curso
+    - node.type.leccion
+id: node.leccion.field_curso_padre
+field_name: field_curso_padre
+entity_type: node
+bundle: leccion
+label: 'Curso padre'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      curso: curso
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
