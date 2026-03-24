@@ -45,24 +45,21 @@ El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, 
 ~~~bash
 git clone https://github.com/Alexlizzt/SimpleLMS.git
 cd SimpleLMS
+chmod +x scripts/setup.sh
 ~~~
 
-### 2. Levantar contenedores
+### 2. Instalación Automática
 ~~~bash
-docker compose up -d --build
+./scripts/setup.sh
 ~~~
 
-### 3. Instalar dependencias / Configurar proyecto
-~~~bash
-docker compose exec app bash ./scripts/setup.sh
-~~~
-
-### 4. Acceso
+### 3. Acceso
 Abrir en el navegador:
 
 http://localhost:8080
 
-Configuración de base de datos:
+<details> 
+<summary>Detalles técnicos de base de datos</summary>
 
 - Host: drupal_db
 - Nombre: drupal
@@ -70,9 +67,16 @@ Configuración de base de datos:
 - Password: drupal_password
 
 *NOTA: Se incluye un fichero **.env** en caso que se desee cambiar las credenciales*
-
+</details>
 Usuario:
 admin/admin
+
+### Nota para desarrolladores:
+Este proyecto utiliza Config Sync. Si realizas cambios en la estructura (campos, vistas, etc.), recuerda exportarlos con: 
+~~~bash
+docker compose exec app vendor/bin/drush cex 
+~~~
+antes de hacer commit.
 
 ### 📬 Mailpit
 
