@@ -1,0 +1,22 @@
+uuid: 93b0d464-0d31-40ae-9a83-6c3dea735263
+langcode: es
+status: false
+dependencies:
+  theme:
+    - lms_bootstrap
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: lms_bootstrap_primary_local_tasks
+theme: lms_bootstrap
+region: header
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Solapas principales'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

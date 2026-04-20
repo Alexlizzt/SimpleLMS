@@ -1,5 +1,5 @@
 # Ignorar archivos subidos (imágenes, PDFs, etc.)
-/sites/*/files/
+# /sites/*/files/
 /sites/*/private/
 
 # Ignorar configuraciones específicas del sitio
