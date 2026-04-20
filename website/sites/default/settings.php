@@ -2,6 +2,8 @@
 
 // phpcs:ignoreFile
 
+// DDEV-created Drupal 10 settings.php from upstream default.settings.php
+
 /**
  * @file
  * Drupal site-specific configuration file.
@@ -67,10 +69,10 @@
  * during the same request.
  *
  * One example of the simplest connection array is shown below. To use the
- * sample settings, copy and uncomment the code below and paste it after the
- * $databases declaration. You will need to replace the database username and
- * password and possibly the host and port with the appropriate credentials for
- * your database system.
+ * sample settings, copy and uncomment the code below between the @code and
+ * @endcode lines and paste it after the $databases declaration. You will need
+ * to replace the database username and password and possibly the host and port
+ * with the appropriate credentials for your database system.
  *
  * The next section describes how to customize the $databases array for more
  * specific needs.
@@ -144,7 +146,7 @@ $databases = [];
  * in deadlocks, the other two options are 'READ UNCOMMITTED' and 'SERIALIZABLE'.
  * They are available but not supported; use them at your own risk. For more
  * info:
- * https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html
+ * https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html
  *
  * On your settings.php, change the isolation level:
  * @code
@@ -286,7 +288,7 @@ $databases = [];
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = 'GUxSj7WMCRzuHnABA3ioxeNX4SHLT47h0I-1KVvWdur_VIsOEqfUycS1Z1pVxAo3RBuk8D4omw';
+$settings['hash_salt'] = '';
 
 /**
  * Deployment identifier.
@@ -312,7 +314,7 @@ $settings['hash_salt'] = 'GUxSj7WMCRzuHnABA3ioxeNX4SHLT47h0I-1KVvWdur_VIsOEqfUyc
 $settings['update_free_access'] = FALSE;
 
 /**
- * Fallback to HTTP for Update Status and for fetching security advisories.
+ * Fallback to HTTP for Update Manager and for fetching security advisories.
  *
  * If your site fails to connect to updates.drupal.org over HTTPS (either when
  * fetching data on available updates, or when fetching the feed of critical
@@ -476,6 +478,30 @@ $settings['update_free_access'] = FALSE;
 # $settings['class_loader_auto_detect'] = FALSE;
 
 /**
+ * Authorized file system operations:
+ *
+ * The Update Manager module included with Drupal provides a mechanism for
+ * site administrators to securely install missing updates for the site
+ * directly through the web user interface. On securely-configured servers,
+ * the Update manager will require the administrator to provide SSH or FTP
+ * credentials before allowing the installation to proceed; this allows the
+ * site to update the new files as the user who owns all the Drupal files,
+ * instead of as the user the webserver is running as. On servers where the
+ * webserver user is itself the owner of the Drupal files, the administrator
+ * will not be prompted for SSH or FTP credentials (note that these server
+ * setups are common on shared hosting, but are inherently insecure).
+ *
+ * Some sites might wish to disable the above functionality, and only update
+ * the code directly via SSH or FTP themselves. This setting completely
+ * disables all functionality related to these authorized file operations.
+ *
+ * @see https://www.drupal.org/node/244924
+ *
+ * Remove the leading hash signs to disable.
+ */
+# $settings['allow_authorize_operations'] = FALSE;
+
+/**
  * Default mode for directories and files written by Drupal.
  *
  * Value should be in PHP Octal Notation, with leading zero.
@@ -602,18 +628,6 @@ $settings['update_free_access'] = FALSE;
 # $settings['file_temp_path'] = '/tmp';
 
 /**
- * Automatically create an Apache HTTP .htaccess file in writable directories.
- *
- * This setting can be disabled if you are not using Apache HTTP server, or if
- * you have a web server configuration that protects the various writable file
- * directories.
- *
- * @see \Drupal\Component\FileSecurity\FileSecurity::writeHtaccess()
- * @see https://www.drupal.org/docs/administering-a-drupal-site/security-in-drupal/securing-file-permissions-and-ownership
- */
-# $settings['auto_create_htaccess'] = FALSE;
-
-/**
  * Session write interval:
  *
  * Set the minimum interval between each session write to database.
@@ -635,7 +649,7 @@ $settings['update_free_access'] = FALSE;
  */
 # $settings['locale_custom_strings_en'][''] = [
 #   'Home' => 'Front page',
-#   'Last run @time ago' => 'Last run was done @time ago',
+#   '@count min' => '@count minutes',
 # ];
 
 /**
@@ -713,6 +727,15 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
 # $settings['container_base_class'] = '\Drupal\Core\DependencyInjection\Container';
 
 /**
+ * Override the default yaml parser class.
+ *
+ * Provide a fully qualified class name here if you would like to provide an
+ * alternate implementation YAML parser. The class must implement the
+ * \Drupal\Component\Serialization\SerializationInterface interface.
+ */
+# $settings['yaml_parser_class'] = NULL;
+
+/**
  * Trusted host configuration.
  *
  * Drupal core can use the Symfony trusted host mechanism to prevent HTTP Host
@@ -787,6 +810,16 @@ $settings['entity_update_batch_size'] = 50;
 $settings['entity_update_backup'] = TRUE;
 
 /**
+ * State caching.
+ *
+ * State caching uses the cache collector pattern to cache all requested keys
+ * from the state API in a single cache entry, which can greatly reduce the
+ * amount of database queries. However, some sites may use state with a
+ * lot of dynamic keys which could result in a very large cache.
+ */
+$settings['state_cache'] = TRUE;
+
+/**
  * Node migration type.
  *
  * This is used to force the migration system to use the classic node migrations
@@ -842,6 +875,11 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # $settings['migrate_file_public_path'] = '';
 # $settings['migrate_file_private_path'] = '';
 
+// Automatically generated include for settings managed by ddev.
+if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev.php')) {
+  include __DIR__ . '/settings.ddev.php';
+}
+
 /**
  * Load local development override configuration, if available.
  *
@@ -859,44 +897,3 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
-$databases['default']['default'] = array (
-  'database' => 'drupal_db',
-  'username' => 'drupal_user',
-  'password' => 'drupal_password',
-  'prefix' => '',
-  'host' => 'lms_db',
-  'port' => '3306',
-  'isolation_level' => 'READ COMMITTED',
-  'driver' => 'mysql',
-  'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
-  'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
-);
-/**
- * Configuración automática de Correo para Entorno Docker (Mailpit).
- */
-$config['system.mail']['interface']['default'] = 'smtp';
-
-$config['smtp.settings'] = [
-  'smtp_on' => TRUE,            // Activa el módulo SMTP automáticamente
-  'smtp_host' => 'mailpit',     // Nombre del servicio en docker-compose.yml
-  'smtp_port' => '1025',        // Puerto estándar de Mailpit
-  'smtp_protocol' => 'none',    // Mailpit local no requiere SSL/TLS
-  'smtp_authed' => FALSE,       // No requiere usuario/contraseña
-  'smtp_from' => 'lms@ejemplo.com',
-  'smtp_fromname' => 'LMS Academy',
-];
-$settings['config_sync_directory'] = '../config/sync';
-/**
- * Trusted Host Patterns para desarrollo local.
- */
-$settings['trusted_host_patterns'] = [
-  '^localhost$',
-  '^127\.0\.0\.1$',
-  '^lms-drupal\.ddev\.site$', // O el dominio que uses en tu Docker
-];
-
-// Automatically generated include for settings managed by ddev.
-$ddev_settings = __DIR__ . '/settings.ddev.php';
-if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
-  require $ddev_settings;
-}

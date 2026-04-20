@@ -1,6 +1,6 @@
 # Dependencias de PHP
 /vendor/
-
+**/vendor/
 # Archivos de entorno y Docker locales
 #.env
 docker-compose.override.yml
