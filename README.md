@@ -1,7 +1,7 @@
 # 🎓 Simple LMS - Drupal 11 Full Stack Project
 
 Mini plataforma de cursos online desarrollada con Drupal 11.
-El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, Docker y buenas prácticas.
+El proyecto demuestra habilidades en arquitectura backend, desarrollo frontend en Drupal, gestion de contenedores con DDEV y buenas prácticas de desarrollo.
 
 ---
 
@@ -11,6 +11,7 @@ El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, 
 - PHP 8.4
 - MariaDB 10.11
 - Nginx
+- DDEV (Docker based)
 - Docker & Docker Compose
 - Composer
 - SCSS
@@ -39,51 +40,75 @@ El proyecto demuestra conocimientos de desarrollo backend y frontend en Drupal, 
 - Lógica desacoplada mediante servicios
 
 ---
-
+## 📝 Requisitos
+- [Docker](https://docs.docker.com/engine/install/)
+- [DDEV](https://docs.ddev.com/en/stable/users/install/ddev-installation/)
+---
 ## ▶️ Ejecución del proyecto
-### 1. Clonar repositorio
+### 1. Clonar repositorio y levantar el proyecto
 ~~~bash
 git clone https://github.com/Alexlizzt/SimpleLMS.git
 cd SimpleLMS
-chmod +x scripts/setup.sh
+ddeb start
 ~~~
 
-### 2. Instalación Automática
+### 2. Instalación
 ~~~bash
-./scripts/setup.sh
+ddev composer install
 ~~~
+en la release se adjunta un backup de la base de datos, con ella usas:
+~~~bash
+ddev import-db --file=backup.sql
+~~~
+
 
 ### 3. Acceso
-Abrir en el navegador:
+**Sitio web**
 
-http://localhost:8080
-
-<details> 
-<summary>Detalles técnicos de base de datos</summary>
-
-- Host: drupal_db
-- Nombre: drupal
-- Usuario: drupal_user
-- Password: drupal_password
-
-*NOTA: Se incluye un fichero **.env** en caso que se desee cambiar las credenciales*
-</details>
-Usuario:
-admin/admin
-
-### Nota para desarrolladores:
-Este proyecto utiliza Config Sync. Si realizas cambios en la estructura (campos, vistas, etc.), recuerda exportarlos con: 
+Ejecutar:
 ~~~bash
-docker compose exec app vendor/bin/drush cex 
+ddev launch
+~~~
+tendras acceso a:
+
+https://simplelms.ddev.site
+
+**Mailpit**
+~~~bash
+ddev launch -m
+~~~
+
+**Base de datos**
+Para ver las credenciales
+~~~bash
+ddev describe
+~~~
+
+Para conectar su gestor favorito
+~~~bash
+ddev sequelace
+~~~
+o
+~~~bash
+ddev tableplus
+~~~
+
+### 🗃️ Guia para desarrolladores:
+Este proyecto utiliza Configuration Management. Si realizas cambios en la estructura (campos, vistas, tipos de contenido), debes exportarlos:
+
+~~~bash
+ddev drush cex # Exportar configuración
+ddev drush cim # Importar configuración
+ddev drush cr # Limpiar caché
 ~~~
 antes de hacer commit.
 
-### 📬 Mailpit
+## Gestión de dependencias
+Para añadir nuevos modulos o librerías, utiliza siempre el comando de ddev para asegurar la compatibilidad de versiones:
 
-Interfaz disponible en:
-
-http://localhost:8025
-
+~~~bash
+ddev composer require drupal/<<nombre_del_modulo>>
+~~~
 
 ## 📌 Objetivo del proyecto
 Este proyecto es desarrollado como parte de mi portafolio.
