@@ -56,7 +56,7 @@ ddeb start
 ~~~bash
 ddev composer install
 ~~~
-en la release se adjunta un backup de la base de datos, con ella usas:
+en la release se adjunta un backup de la [base de datos](https://github.com/Alexlizzt/SimpleLMS/releases/download/1.0/backup.sql), con ella usas:
 ~~~bash
 ddev import-db --file=backup.sql
 ~~~
